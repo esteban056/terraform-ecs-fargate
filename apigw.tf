@@ -4,7 +4,7 @@ resource "aws_api_gateway_vpc_link" "vpc-link" {
 }
 
 resource "aws_api_gateway_authorizer" "hv-api-authorizer" {
-  name                   = "hv-api-authorizer-stage"
+  name                   = var.authorizer_name
   rest_api_id            = aws_api_gateway_rest_api.rest-api.id
   authorizer_uri         = aws_lambda_function.authorizer.invoke_arn
   authorizer_credentials = aws_iam_role.invocation-role.arn
@@ -80,7 +80,7 @@ resource "aws_api_gateway_integration" "api-opt-proxy-integration" {
 }
 
 resource "aws_api_gateway_rest_api" "rest-api" {
-  name = "hv-vpc-api-stage"
+  name = var.rest_api_name
   endpoint_configuration {
     types=["REGIONAL"]
   }
@@ -88,7 +88,7 @@ resource "aws_api_gateway_rest_api" "rest-api" {
   "swagger" : "2.0",
   "info" : {
     "version" : "2021-08-06T20:25:11Z",
-    "title" : "hv-stage-vpc-api"
+    "title" : "hv-vpc-api"
   },
   "basePath" : "/stage",
   "schemes" : [ "https" ],

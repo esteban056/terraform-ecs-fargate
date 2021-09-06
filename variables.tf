@@ -111,3 +111,18 @@ variable "db_port" {
   type = number
   description = "Port on which the DB accepts connections"
 }
+
+variable "authorizer_name" {
+  type = string
+  description = "authorizer name for the api gateway"
+}
+
+variable "rest_api_name" {
+  type = string
+  description = "rest api name for the api gateway"
+}
+
+variable "lambda_function_name" {
+  type = string
+  description = "lambda authorizer name of the function for the api gateway"
+}
