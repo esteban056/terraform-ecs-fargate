@@ -63,6 +63,10 @@ resource "aws_api_gateway_method" "api-options-method" {
   http_method   = "OPTIONS"
   authorization = "CUSTOM"
   authorizer_id = aws_api_gateway_authorizer.hv-api-authorizer.id
+  
+  request_parameters = {
+    "method.request.path.proxy" = true
+  }
 }
 resource "aws_api_gateway_integration" "api-opt-proxy-integration" {
   rest_api_id          = aws_api_gateway_rest_api.rest-api.id
@@ -74,8 +78,12 @@ resource "aws_api_gateway_integration" "api-opt-proxy-integration" {
   connection_id = aws_api_gateway_vpc_link.vpc-link.id
   uri = "http://${var.subdomain_3}.${var.domain}/{proxy}"
 
+  request_parameters = {
+    "integration.request.path.proxy" = "method.request.path.proxy",
+  }
+
   depends_on = [
-    aws_api_gateway_method.api-any-method
+    aws_api_gateway_method.api-options-method
   ]
 }
 
@@ -88,7 +96,7 @@ resource "aws_api_gateway_rest_api" "rest-api" {
   "swagger" : "2.0",
   "info" : {
     "version" : "2021-08-06T20:25:11Z",
-    "title" : "hv-vpc-api"
+    "title" : "${var.rest_api_name}"
   },
   "basePath" : "/stage",
   "schemes" : [ "https" ],
@@ -209,7 +217,7 @@ resource "aws_api_gateway_rest_api" "rest-api" {
 resource "aws_api_gateway_stage" "api-stage" {
   deployment_id = aws_api_gateway_deployment.api-deployment.id
   rest_api_id   = aws_api_gateway_rest_api.rest-api.id
-  stage_name    = "test"
+  stage_name    = "${var.api_stage_name}"
 }
 
 resource "aws_api_gateway_deployment" "api-deployment" {

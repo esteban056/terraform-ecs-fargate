@@ -26,13 +26,15 @@ mysql -u XXX -h hv-stage-db.cviobqjmbuxe.us-east-1.rds.amazonaws.com --port XXXX
 ```
 
 ## Deploy Notes
-- ensure webservice is exposing and listening in por 80
+- ensure webservice is exposing and listening in port 80
 - apply terraform
-- build/deploy webservice
+- if it's necesary build/deploy webservice from jenkins
 - in the aws console in the section:
  `api gateway > hv-vpc-api > authorizers > hv-api-authorizer`
   click edit and save, this adds the trigger to the lambda authorizer
-- deploy `stage` in api gateway
-- update endpoints on fronoffice and backoffice
+- deploy `stage` in api gateway, `go to resources > actions > deploy api`
+- update endpoints on frontoffice and backoffice
   - if you didn't update endpoint on frontoffice endpoint, deploy public webservice
+  - ensure public webservice has the apropiate security groups to access database
 - deploy clinical history backend pointing to new private service discovery url ej. http://stage-api...
+- check influencers routes

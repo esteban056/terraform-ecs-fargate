@@ -126,3 +126,13 @@ variable "lambda_function_name" {
   type = string
   description = "lambda authorizer name of the function for the api gateway"
 }
+
+variable "db_identifier" {
+  type = string
+  description = "identifier for the database"
+}
+
+variable "api_stage_name" {
+  type = string
+  description = "name for the deploy stage in the api gateway"
+}

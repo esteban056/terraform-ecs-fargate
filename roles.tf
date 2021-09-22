@@ -1,5 +1,5 @@
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name               = "ecs-task-execution-role"
+  name               = "${var.cluster_name}-ecs-task-execution-role"
   assume_role_policy = jsonencode(
   {
     "Version": "2012-10-17",
@@ -26,7 +26,7 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role" {
 
 #api gateway lambda authorizer
 resource "aws_iam_role" "invocation-role" {
-  name = "api_gateway_auth_invocation"
+  name = "${var.cluster_name}-apigw_auth_invocation"
   path = "/"
 
   assume_role_policy = <<EOF
@@ -65,7 +65,7 @@ EOF
 }
 
 resource "aws_iam_role" "lambda" {
-  name = "demo-lambda"
+  name = "${var.cluster_name}-demo-lambda"
 
   assume_role_policy = <<EOF
 {
@@ -86,7 +86,7 @@ EOF
 
 # See also the following AWS managed policy: AWSLambdaBasicExecutionRole
 resource "aws_iam_policy" "lambda_logging" {
-  name        = "lambda_logging"
+  name        = "${var.cluster_name}-lambda_logging"
   path        = "/"
   description = "IAM policy for logging from a lambda"
 

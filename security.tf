@@ -91,7 +91,7 @@ resource "aws_security_group" "bd_sg" {
     protocol        = "-1"
     from_port       = 0
     to_port         = 0
-    security_groups = [aws_security_group.ecs_private_sg.id]
+    security_groups = [aws_security_group.ecs_private_sg.id,aws_security_group.ecs_sg.id]
   }
   
 }
